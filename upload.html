@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<link rel="stylesheet" href="css/amazeui.min.css" />
+
+	<style>
+		.tpl-portlet-components .portlet-title .caption {
+			float: inherit;
+		}
+
+		.tpl-portlet-components .portlet-title {
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<form class="am-form am-form-horizontal" id="addcompanyinfo" enctype="multipart/form-data">
+			<div class="am-form-group">
+				<div class="am-form-group am-form-file">
+					<button type="button" class="am-btn am-btn-danger am-btn-sm"
+						>
+						选择上传图片
+					</button>
+					<input id="photo" type="file" name="fileField">
+				</div>
+
+				<div class="tpl-logo">
+					<img id="logo" src="" width="20%" alt="">
+				</div>
+
+			</div>
+
+			<div class="am-form-group">
+				<input type="button" class="am-btn am-btn-primary" value="上传" id="idsub" />
+			</div>
+		</form>
+	</div>
+
+
+
+
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.form.js"></script>
+
+	<script>
+		//添加图片时，将选择的图片显示到页面中
+		$(document).ready(function () {
+			$("#photo").change(function () {
+				var fil = this.files;
+				for (var i = 0; i < fil.length; i++) {
+					console.log(fil[i]);
+					console.log('--------------------------');
+					reads(fil[i]);
+				}
+			});
+
+			$("#idsub").click(function () {
+				/*用ajaxSubmit方法提交表单*/
+				//ajaxSubmit 提交表单 需要jquery.form.js
+				$("#addcompanyinfo").ajaxSubmit({
+					type: 'post',
+					url: "http://zhouyuebrandon.xyz:8090/PhotoSave?id=1", //变量
+					async: true,
+					error: function () { //请求失败处理函数  
+						alert("您添加图片失败");
+					},
+					success: function (data) { //请求成功后处理函数。
+						alert("图片添加成功");
+					}
+				});
+			})
+		});
+
+		//读取选取的图片
+		function reads(fil) {
+			var reader = new FileReader();
+			reader.readAsDataURL(fil);
+			reader.onload = function () {
+				$("#logo").attr("src", reader.result)
+			}
+		}
+	</script>
+</body>
+
+</html>
